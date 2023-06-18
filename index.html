@@ -170,16 +170,6 @@
 
     <section>
         <form>
-            <label>Carrier deck angle, °
-                <input id="deck_angle" type="number" value="9.12" step="0.1" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()"  />
-            </label>
-            <label>Carrier minimum speed, kts
-                <input id="v_min" type="number" value="3" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
-            </label>
-            <label>Carrier maximum speed, kts
-                <input id="v_max" type="number" value="25" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
-            </label>
-
             <label>Wind from bearing, °
                 <input id="wind_from_brg" type="number" step="5" value="0" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
             </label>
@@ -188,9 +178,24 @@
                 <input id="wind_speed" type="number" value="4" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
             </label>
 
-            <label>Desired apparent wind speed, kts
-                <input id="desired_apparent_wind_speed" type="number" value="25" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
+            <label>Show advanced fields
+                <input id="show_advanced" type="checkbox" onchange="refreshGuiState()"  />
             </label>
+
+            <div id="advanced_fields">
+                <label>Carrier deck angle, °
+                    <input id="deck_angle" type="number" value="9.12" step="0.1" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()"  />
+                </label>
+                <label>Carrier minimum speed, kts
+                    <input id="v_min" type="number" value="3" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
+                </label>
+                <label>Carrier maximum speed, kts
+                    <input id="v_max" type="number" value="25" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
+                </label>
+                <label>Desired apparent wind speed, kts
+                    <input id="desired_apparent_wind_speed" type="number" value="25" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
+                </label>
+            </div>
         </form>
     </section>
 
@@ -276,6 +281,12 @@
             windArrow.style.height = (3 * windSpeed) + "px";
         }
 
+        function refreshGuiState() {
+            const shouldShowAdvanced = document.getElementById("show_advanced").checked;
+            document.getElementById("advanced_fields").style.display = shouldShowAdvanced ? "block" : "none";
+        }
+
+        refreshGuiState();
         recalculate();
     </script>
 </body>
