@@ -30,7 +30,13 @@
         h3 {
             font-size: 18px;
         }
-        p {
+        p, a {
+            font-size: 16px;
+        }
+        label {
+            font-size: 14px;
+        }
+        label > :not(input) {
             font-size: 16px;
         }
 
@@ -45,10 +51,27 @@
         input {
             display: block;
         }
+        .result_box {
+            display: flex;
+            max-width: 400px;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .result_box > :nth-child(0) {
+            flex: 2;
+        }
+        .result_box > :nth-child(1) {
+            flex: 2;
+        }
+        .result_box > :nth-child(2) {
+            flex: 3;
+        }
         .result_value {
             display: block;
-            font-weight: 700;
             height: 30px;
+        }
+        .bold {
+            font-weight: 700;
         }
     </style>
 </head>
@@ -62,45 +85,48 @@
         <h2>Inputs</h2>
         <form>
             <label>Carrier deck angle, °
-                <input id="deck_angle" type="number" value="9.12" step="0.1" onpaste="recalculate()" onchange="recalculate()" />
+                <input id="deck_angle" type="number" value="9.12" step="0.1" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()"  />
             </label>
             <label>Carrier minimum speed, kts
-                <input id="v_min" type="number" value="3" onpaste="recalculate()" onchange="recalculate()"/>
+                <input id="v_min" type="number" value="3" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
             </label>
             <label>Carrier maximum speed, kts
-                <input id="v_max" type="number" value="25" onpaste="recalculate()" onchange="recalculate()"/>
+                <input id="v_max" type="number" value="25" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
             </label>
 
             <label>Wind from bearing, °
-                <input id="wind_from_brg" type="number" step="5" value="0" onpaste="recalculate()" onchange="recalculate()"/>
+                <input id="wind_from_brg" type="number" step="5" value="0" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
             </label>
 
             <label>Wind speed, kts
-                <input id="wind_speed" type="number" value="0" onpaste="recalculate()" onchange="recalculate()"/>
+                <input id="wind_speed" type="number" value="0" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
             </label>
 
             <label>Desired apparent wind speed, kts
-                <input id="desired_apparent_wind_speed" type="number" value="25" onpaste="recalculate()" onchange="recalculate()"/>
+                <input id="desired_apparent_wind_speed" type="number" value="25" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
             </label>
         </form>
     </section>
 
     <section>
-        <h2>Resulting optimal cruise for aircraft recovery</h2>
-        <label>Recommended carrier heading
-            <span id="recommended_heading" class="result_value"></span>
-        </label>
-        <label>Recommended carrier speed
-            <span id="recommended_speed" class="result_value"></span>
-        </label>
-        <label>Resulting wind angle over deck (ideally same as deck angle)
-            <span id="resulting_window_over_deck" class="result_value"></span>
-        </label>
+        <h2>Recommended cruise for aircraft recovery</h2>
+        <div class="result_box">
+            <label>Heading
+                <span id="recommended_heading" class="result_value bold"></span>
+            </label>
+            <label>Speed
+                <span id="recommended_speed" class="result_value bold"></span>
+            </label>
+            <label>Resulting wind angle
+                <span id="resulting_window_over_deck" class="result_value"></span>
+            </label>
+        </div>
     </div>
 
     <section>
         <h2>Credits</h2>
         <p>Made by Mags with carrier cruise math originally written by Bambi.</p>
+        <a href="https://github.com/magwo/carrier-cruise/">Source code on GitHub</a>
     </div>
 
     <script>
