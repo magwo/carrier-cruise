@@ -1,4 +1,6 @@
-# formations
-Aircraft formations with transitions
+# Carrier cruise calculator by Mags & Bambi
+Calculates cruise heading and speed for optimal wind over deck for aircraft recovery.
 
-https://magwo.github.io/formations/
+Useful for DCS and other flight simulators that involve carrier ops.
+
+Default values are for Nimitz aircraft carrier or similar.
