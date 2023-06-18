@@ -103,12 +103,12 @@
             right: 8px;
             font-size: 10px;
             text-align: right;
-            .wind {
-                color: yellow;
-            }
-            .carrier_cruise {
-                color: blue;
-            }
+        }
+        .legend .wind_legend {
+            color: yellow;
+        }
+        .legend .carrier_cruise_legend {
+            color: blue;
         }
         #carrier {
             width: 50px;
@@ -200,10 +200,6 @@
 
     <section>
         <div class="sea">
-            <div class="legend">
-                <div class="wind">Wind</div>
-                <div class="carrier_cruise">Carrier cruise</div>
-            </div>
             <div class="sea_center">
                 <div class="positioned_element" id="carrier"></div>
                 <div class="positioned_element" id="aircraft_container">
@@ -215,6 +211,10 @@
                 <div class="positioned_element" id="wind_arrow_container">
                     <div class="positioned_element" id="wind_arrow"></div>
                 </div>
+            </div>
+            <div class="legend">
+                <div class="wind_legend">Wind</div>
+                <div class="carrier_cruise_legend">Carrier cruise</div>
             </div>
         </div>
     </section>
