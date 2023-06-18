@@ -5,4 +5,4 @@ Useful for DCS and other flight simulators that involve carrier ops.
 
 Default values are for Nimitz aircraft carrier or similar.
 
-<img src="//raw.githubusercontent.com/magwo/carrier-cruise/main/screenshot.png" width="300">
+<img src="https://raw.githubusercontent.com/magwo/carrier-cruise/main/screenshot.png" width="300">
