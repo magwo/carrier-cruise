@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Carrier cruise calculator by Mags & Bambi</title>
+    <script src="carrier-cruise.js"></script>
+    <script src="main.js"></script>
+    <style>
+        html {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: block;
+            position: relative;
+            margin: 16px;
+            font-family: sans-serif;
+            font-size: 18px;
+            line-height: 1.1;
+            justify-content: center;
+            color: #666;
+        }
+
+        h1 {
+            font-size: 26px;
+        }
+        h2 {
+            font-size: 22px;
+        }
+        h3 {
+            font-size: 18px;
+        }
+        p {
+            font-size: 16px;
+        }
+
+        section {
+            padding: 12px 0;
+        }
+
+        label {
+            display: block;
+            padding: 6px 0;
+        }
+        input {
+            display: block;
+        }
+        .result_value {
+            display: block;
+            font-weight: 700;
+            height: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Carrier cruise calculator by Mags & Bambi</h1>
+    <p>Calculates cruise heading and speed for optimal wind over deck for aircraft recovery. Useful for DCS and other flight simulators that involve carrier ops.</p>
+    <p>Default values are correct for Nimitz aircraft carrier or similar.</p>
+
+    <section>
+        <h2>Inputs</h2>
+        <form>
+            <label>Carrier deck angle, °
+                <input id="deck_angle" type="number" value="9.12" step="0.1" onpaste="recalculate()" onchange="recalculate()" />
+            </label>
+            <label>Carrier minimum speed, kts
+                <input id="v_min" type="number" value="3" onpaste="recalculate()" onchange="recalculate()"/>
+            </label>
+            <label>Carrier maximum speed, kts
+                <input id="v_max" type="number" value="25" onpaste="recalculate()" onchange="recalculate()"/>
+            </label>
+
+            <label>Wind from bearing, °
+                <input id="wind_from_brg" type="number" step="5" value="0" onpaste="recalculate()" onchange="recalculate()"/>
+            </label>
+
+            <label>Wind speed, kts
+                <input id="wind_speed" type="number" value="0" onpaste="recalculate()" onchange="recalculate()"/>
+            </label>
+
+            <label>Desired apparent wind speed, kts
+                <input id="desired_apparent_wind_speed" type="number" value="25" onpaste="recalculate()" onchange="recalculate()"/>
+            </label>
+        </form>
+    </section>
+
+    <section>
+        <h2>Resulting optimal cruise for aircraft recovery</h2>
+        <label>Recommended carrier heading
+            <span id="recommended_heading" class="result_value"></span>
+        </label>
+        <label>Recommended carrier speed
+            <span id="recommended_speed" class="result_value"></span>
+        </label>
+        <label>Resulting wind angle over deck (ideally same as deck angle)
+            <span id="resulting_window_over_deck" class="result_value"></span>
+        </label>
+    </div>
+
+    <section>
+        <h2>Credits</h2>
+        <p>Made by Mags with carrier cruise math originally written by Bambi.</p>
+    </div>
+
+    <script>
+        function recalculate() {
+            const deckAngle = parseFloat(document.getElementById("deck_angle").value);
+            const vMin = parseFloat(document.getElementById("v_min").value);
+            const vMax = parseFloat(document.getElementById("v_max").value);
+            const windFromBrg = parseFloat(document.getElementById("wind_from_brg").value);
+            const windSpeed = parseFloat(document.getElementById("wind_speed").value);
+            const desiredApparentWindSpeed = parseFloat(document.getElementById("desired_apparent_wind_speed").value);
+
+            const windToBrg = (windFromBrg + 180) % 360;
+            const result = getShipCourseAndSpeed(deckAngle, vMin, vMax, windToBrg, windSpeed, desiredApparentWindSpeed);
+
+            document.getElementById("recommended_heading").innerText = Math.round(result.ship_heading) + "°";
+            document.getElementById("recommended_speed").innerText = Math.round(result.ship_speed) + " kts";
+            document.getElementById("resulting_window_over_deck").innerText = Math.round(result.apparent_wind_heading) + "°";
+        }
+
+        recalculate();
+    </script>
+</body>
