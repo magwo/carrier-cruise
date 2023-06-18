@@ -41,7 +41,7 @@
         }
 
         section {
-            padding: 12px 0;
+            padding: 8px 0;
         }
 
         label {
@@ -73,13 +73,88 @@
         .bold {
             font-weight: 700;
         }
+
+        .sea {
+            position: relative;
+            background-color: #47b;
+            width: 300px;
+            height: 300px;
+            border-radius: 20px;
+        }
+        .sea_center {
+            width: 150px;
+            height: 150px;
+            position: absolute;
+            top: 150px;
+            left: 150px;
+            overflow: visible;
+        }
+        .positioned_element {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .legend {
+            display: block;
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            font-size: 10px;
+            text-align: right;
+            .wind {
+                color: yellow;
+            }
+            .carrier_cruise {
+                color: blue;
+            }
+        }
+        #carrier {
+            width: 50px;
+            height: 50px;
+            background-image: url("images/carrier@2x.png");
+            background-size: contain;
+            transform: translate(-20px, -20px);
+        }
+        #aircraft {
+            width: 20px;
+            height: 20px;
+            background-image: url("images/hornet@2x.png");
+            background-size: contain;
+            transform: translate(-10px, 50px) rotate(45deg);
+        }
+        #carrier_arrow_container {
+            transform-origin: 50% 0%;
+        }
+        #carrier_arrow {
+            background-color: blue;
+            border-radius: 2px;
+            width: 2px;
+            height: 60px;
+            transform: translate(-1px, 40px);
+            opacity: 0.6;
+        }
+        #wind_arrow_container {
+            transform-origin: 50% 0%;
+        }
+        #wind_arrow {
+            background-color: yellow;
+            border-radius: 2px;
+            width: 2px;
+            height: 60px;
+            transform: translate(-1px, 40px);
+        }
     </style>
 </head>
 
 <body>
+    <template>
+        <svg></svg>
+    </template>
     <h1>Carrier cruise calculator by Mags & Bambi</h1>
     <p>Calculates cruise heading and speed for optimal wind over deck for aircraft recovery. Useful for DCS and other flight simulators that involve carrier ops.</p>
-    <p>Default values are for Nimitz aircraft carrier or similar.</p>
+    <p>Default values are for Nimitz aircraft carrier or similar. For entertainment purposes only.</p>
 
     <section>
         <h2>Inputs</h2>
@@ -99,7 +174,7 @@
             </label>
 
             <label>Wind speed, kts
-                <input id="wind_speed" type="number" value="0" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
+                <input id="wind_speed" type="number" value="4" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
             </label>
 
             <label>Desired apparent wind speed, kts
@@ -121,13 +196,34 @@
                 <span id="resulting_window_over_deck" class="result_value"></span>
             </label>
         </div>
-    </div>
+    </section>
+
+    <section>
+        <div class="sea">
+            <div class="legend">
+                <div class="wind">Wind</div>
+                <div class="carrier_cruise">Carrier cruise</div>
+            </div>
+            <div class="sea_center">
+                <div class="positioned_element" id="carrier"></div>
+                <div class="positioned_element" id="aircraft_container">
+                    <div class="positioned_element" id="aircraft"></div>
+                </div>
+                <div class="positioned_element" id="carrier_arrow_container">
+                    <div class="positioned_element" id="carrier_arrow"></div>
+                </div>
+                <div class="positioned_element" id="wind_arrow_container">
+                    <div class="positioned_element" id="wind_arrow"></div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <section>
         <h2>Credits</h2>
         <p>Made by Mags with carrier cruise math originally written by Bambi.</p>
         <a href="https://github.com/magwo/carrier-cruise/">Source code on GitHub</a>
-    </div>
+    </section>
 
     <script>
         function recalculate() {
@@ -144,6 +240,25 @@
             document.getElementById("recommended_heading").innerText = Math.round(result.ship_heading) + "°";
             document.getElementById("recommended_speed").innerText = Math.round(result.ship_speed) + " kts";
             document.getElementById("resulting_window_over_deck").innerText = Math.round(result.apparent_wind_heading) + "°";
+
+            updateVisuals(result.ship_heading, result.ship_speed, deckAngle, windToBrg, windSpeed);
+        }
+
+        function updateVisuals(carrierHdg, carrierSpeed, deckAngle, windHdg, windSpeed) {
+            const carrier = document.getElementById("carrier");
+            const aircraftContainer = document.getElementById("aircraft_container");
+            const carrierArrow = document.getElementById("carrier_arrow");
+            const carrierArrowContainer = document.getElementById("carrier_arrow_container");
+            const windArrow = document.getElementById("wind_arrow");
+            const windArrowContainer = document.getElementById("wind_arrow_container");
+            carrier.style.transform = "translate(-25px, -25px) rotate("+ (carrierHdg + 45) + "deg)";
+            aircraftContainer.style.transform = "rotate("+ (carrierHdg - deckAngle) + "deg)";
+
+            carrierArrow.style.height = (3 * carrierSpeed) + "px";
+            carrierArrowContainer.style.transform = "rotate("+ (180+carrierHdg) + "deg)";
+            
+            windArrowContainer.style.transform = "rotate("+ windHdg + "deg)";
+            windArrow.style.height = (3 * windSpeed) + "px";
         }
 
         recalculate();
