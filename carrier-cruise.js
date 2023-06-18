@@ -40,7 +40,7 @@ function getShipCourseAndSpeed(
     // Calculate the angle of the apparent wind
     const ad = Math.atan(w * Math.sin(theta) / (v + w * Math.cos(theta))) * 180 / pi;
 
-    return { ship_heading: ship_heading, ship_speed: v, apparent_wind_heading: ad };
+    return { ship_heading: ship_heading, ship_speed: v, apparent_wind_angle: ad };
 }
 
 // def main():

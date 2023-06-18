@@ -69,6 +69,7 @@
         .result_value {
             display: block;
             height: 30px;
+            max-width: 160px;
         }
         .bold {
             font-weight: 700;
@@ -208,9 +209,6 @@
             <label>Speed
                 <span id="recommended_speed" class="result_value bold"></span>
             </label>
-            <label>Resulting wind angle
-                <span id="resulting_window_over_deck" class="result_value"></span>
-            </label>
         </div>
     </section>
 
@@ -240,6 +238,21 @@
     </section>
 
     <section>
+        <h3>Details</h3>
+        <div class="result_box">
+            <label>Apparent wind speed
+                <span id="apparent_wind_speed_over_deck" class="result_value"></span>
+            </label>
+            <label>Wind angle
+                <span id="apparent_wind_angle_over_deck" class="result_value"></span>
+            </label>
+            <label>Crosswind
+                <span id="crosswind" class="result_value"></span>
+            </label>
+        </div>
+    </section>
+
+    <section>
         <h2>Credits</h2>
         <p>Made by Mags with carrier cruise math originally written by Bambi.</p>
         <a href="https://github.com/magwo/carrier-cruise/">Source code on GitHub</a>
@@ -259,7 +272,9 @@
 
             document.getElementById("recommended_heading").innerText = Math.round(result.ship_heading) + "°";
             document.getElementById("recommended_speed").innerText = Math.round(result.ship_speed) + " kts";
-            document.getElementById("resulting_window_over_deck").innerText = Math.round(result.apparent_wind_heading) + "°";
+            document.getElementById("apparent_wind_angle_over_deck").innerText = Math.round(result.apparent_wind_angle) + "°";
+
+            // document.getElementById("crosswind").innerText = Math.round(result.apparent_wind_angle - ) + "°";
 
             updateVisuals(result.ship_heading, result.ship_speed, deckAngle, windToBrg, windSpeed);
         }
