@@ -4,3 +4,5 @@ Calculates cruise heading and speed for optimal wind over deck for aircraft reco
 Useful for DCS and other flight simulators that involve carrier ops.
 
 Default values are for Nimitz aircraft carrier or similar.
+
+![Explanation](https://raw.githubusercontent.com/magwo/carrier-cruise/main/screenshot.png)
