@@ -81,6 +81,9 @@
             height: 300px;
             border-radius: 20px;
         }
+        .sea * {
+            transition: all 400ms ease-in-out;
+        }
         .sea_center {
             width: 150px;
             height: 150px;
@@ -94,6 +97,15 @@
             position: absolute;
             top: 0;
             left: 0;
+        }
+
+        .arrow_end {
+            width: 6px;
+            height: 6px;
+            background-color: inherit;
+            top: -2px;
+            left: -2px;
+            clip-path: polygon(50% 0, 0 100%, 100% 100%);
         }
 
         .legend {
@@ -132,7 +144,7 @@
             border-radius: 2px;
             width: 2px;
             height: 60px;
-            transform: translate(-1px, 40px);
+            transform: translate(-1px, 40px) rotate(180deg);
             opacity: 0.6;
         }
         #wind_arrow_container {
@@ -157,7 +169,6 @@
     <p>Default values are for Nimitz aircraft carrier or similar. For entertainment purposes only.</p>
 
     <section>
-        <h2>Inputs</h2>
         <form>
             <label>Carrier deck angle, °
                 <input id="deck_angle" type="number" value="9.12" step="0.1" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()"  />
@@ -206,10 +217,14 @@
                     <div class="positioned_element" id="aircraft"></div>
                 </div>
                 <div class="positioned_element" id="carrier_arrow_container">
-                    <div class="positioned_element" id="carrier_arrow"></div>
+                    <div class="positioned_element" id="carrier_arrow">
+                        <div class="positioned_element arrow_end"></div>
+                    </div>
                 </div>
                 <div class="positioned_element" id="wind_arrow_container">
-                    <div class="positioned_element" id="wind_arrow"></div>
+                    <div class="positioned_element" id="wind_arrow">
+                        <div class="positioned_element arrow_end"></div>
+                    </div>
                 </div>
             </div>
             <div class="legend">
