@@ -16,8 +16,6 @@ function getShipCourseAndSpeed(
     let v;
     let theta;
 
-    console.log("Deck angle is", DA);
-
     // Check if we have too much wind
     if (w + Math.cos(DA) * V_MIN > a) {
         // Set boat speed to minimum
@@ -38,8 +36,6 @@ function getShipCourseAndSpeed(
     }
 
     const ship_heading = (540 + (wind_direction_deg + theta * 180 / pi)) % 360;
-
-    console.log("Ship heading is", ship_heading);
 
     // Calculate the angle of the apparent wind
     const ad = Math.atan(w * Math.sin(theta) / (v + w * Math.cos(theta))) * 180 / pi;
