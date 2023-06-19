@@ -54,22 +54,14 @@
         .result_box {
             display: flex;
             max-width: 400px;
-            justify-content: space-between;
+            
             gap: 8px;
-        }
-        .result_box > :nth-child(0) {
-            flex: 2;
-        }
-        .result_box > :nth-child(1) {
-            flex: 2;
-        }
-        .result_box > :nth-child(2) {
-            flex: 3;
         }
         .result_value {
             display: block;
             height: 20px;
-            max-width: 160px;
+            min-width: 120px;
+            max-width: 200px;
         }
         .bold {
             font-weight: 700;
@@ -77,6 +69,7 @@
 
         .sea {
             position: relative;
+            overflow: hidden;
             background-color: #47b;
             width: 300px;
             height: 300px;
@@ -172,11 +165,11 @@
     <section>
         <form>
             <label>Wind from bearing, °
-                <input id="wind_from_brg" type="number" step="5" value="0" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
+                <input id="wind_from_brg" type="number" step="5" value="0" min="0" max="359" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
             </label>
 
             <label>Wind speed, kts
-                <input id="wind_speed" type="number" value="4" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
+                <input id="wind_speed" type="number" value="4" min="0" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
             </label>
 
             <label>Show advanced fields
@@ -188,13 +181,13 @@
                     <input id="deck_angle" type="number" value="9.12" step="0.1" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()"  />
                 </label>
                 <label>Carrier minimum speed, kts
-                    <input id="v_min" type="number" value="3" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
+                    <input id="v_min" type="number" value="3" min="0" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
                 </label>
                 <label>Carrier maximum speed, kts
-                    <input id="v_max" type="number" value="25" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
+                    <input id="v_max" type="number" value="30" min="1" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
                 </label>
                 <label>Desired apparent wind speed, kts
-                    <input id="desired_apparent_wind_speed" type="number" value="25" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
+                    <input id="desired_apparent_wind_speed" type="number" value="25" min="1" onchange="recalculate()" onpaste="recalculate()" onkeyup="recalculate()" />
                 </label>
             </div>
         </form>
@@ -240,7 +233,7 @@
     <section>
         <h3>Details</h3>
         <div class="result_box">
-            <label>Apparent wind speed
+            <label>Wind over deck
                 <span id="apparent_wind_speed_over_deck" class="result_value"></span>
             </label>
             <label>Wind angle
@@ -272,7 +265,12 @@
 
             document.getElementById("recommended_heading").innerText = Math.round(result.ship_heading) + "°";
             document.getElementById("recommended_speed").innerText = Math.round(result.ship_speed) + " kts";
+            document.getElementById("apparent_wind_speed_over_deck").innerText = Math.round(result.apparent_wind_speed_over_angled_deck) + " kts";
             document.getElementById("apparent_wind_angle_over_deck").innerText = Math.round(result.apparent_wind_angle) + "°";
+
+            const crosswind = Math.round(result.crosswind);
+            const crosswindStr = crosswind > 0 ? crosswind + " kts starboard" : (crosswind < 0 ? crosswind + " kts port side" : crosswind + " kts");
+            document.getElementById("crosswind").innerText = crosswindStr;
 
             // document.getElementById("crosswind").innerText = Math.round(result.apparent_wind_angle - ) + "°";
 

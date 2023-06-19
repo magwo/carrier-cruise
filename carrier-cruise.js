@@ -5,19 +5,29 @@
 function getShipCourseAndSpeed(
     deck_angle_deg, boat_v_min, boat_v_max, wind_direction_deg, wind_speed_knots, desired_apparent_wind_speed_knots
 ) {
-    console.log(deck_angle_deg, boat_v_min, boat_v_max, wind_direction_deg, wind_speed_knots, desired_apparent_wind_speed_knots);
+    // console.log(deck_angle_deg, boat_v_min, boat_v_max, wind_direction_deg, wind_speed_knots, desired_apparent_wind_speed_knots);
 
     const pi = Math.PI;
     const w = wind_speed_knots;
     const a = desired_apparent_wind_speed_knots;
     const DA = deck_angle_deg * pi / 180; // Deck Angle
     const V_MIN = boat_v_min; // The minimum speed the boat is allowed to go
+    const V_MAX = boat_v_max;
     
     let v;
     let theta;
 
+    // Check if we want too much apparent wind
+    if (a > w + Math.cos(DA) * V_MAX) {
+        // Set boat speed to max
+        v = V_MAX;
+
+        // Put apparent wind along the angled deck given v = V_MAX
+        const C = Math.sqrt(Math.cos(DA) ** 2 / Math.sin(DA) ** 2 + 1);
+        theta = Math.asin(v / (w * C)) - Math.asin(-1 / C);
+    }
     // Check if we have too much wind
-    if (w + Math.cos(DA) * V_MIN > a) {
+    else if (w + Math.cos(DA) * V_MIN > a) {
         // Set boat speed to minimum
         v = V_MIN;
 
@@ -38,9 +48,17 @@ function getShipCourseAndSpeed(
     const ship_heading = (540 + (wind_direction_deg + theta * 180 / pi)) % 360;
 
     // Calculate the angle of the apparent wind
-    const ad = Math.atan(w * Math.sin(theta) / (v + w * Math.cos(theta))) * 180 / pi;
+    const apparent_wind_angle = Math.atan(w * Math.sin(theta) / (v + w * Math.cos(theta))) * 180 / pi;
 
-    return { ship_heading: ship_heading, ship_speed: v, apparent_wind_angle: ad };
+    const apparent_wind_speed = Math.sqrt((w * Math.cos(theta) + v ) ** 2 + (Math.sin(theta) ** 2));
+
+    const apparent_wind_speed_over_deck = apparent_wind_speed * Math.cos(DA - apparent_wind_angle*pi/180);
+
+    const apparent_crosswind = apparent_wind_speed * Math.sin(DA - apparent_wind_angle*pi/180);
+
+    // Calculate crosswind
+
+    return { ship_heading: ship_heading, ship_speed: v, apparent_wind_angle: apparent_wind_angle, crosswind: apparent_crosswind, apparent_wind_speed_over_angled_deck: apparent_wind_speed_over_deck };
 }
 
 // def main():
